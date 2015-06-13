@@ -1,11 +1,11 @@
-/*global beforeEach, describe, it, require, expect */
-var Browser = require('zombie');
-Browser.localhost('example.com', 3000);
+/*global beforeEach, describe, it */
+
 describe('Server smoke test', function () {
 	'use strict';
 	var browser;
+
 	beforeEach(function (done) {
-		browser = new Browser();
+		browser = new this.Browser();
 		browser.visit('/util/account', done);
 	});
 	describe('account balance', function () {
@@ -23,12 +23,8 @@ describe('Server smoke test', function () {
 			browser.visit('/util/account/gojko').then(function () {
 				browser.assert.success();
 				browser.assert.text('#balance', '1000');
-				browser.assert.text('#name', 'gojko');
-				done();
-			}).catch(function (error) {
-				expect(error).toBeFalsy();
-				done();
-			});
+				browser.assert.text('#name', 'gojko1');
+			}).catch(this.asyncFail).then(done);
 		});
 	});
 });
