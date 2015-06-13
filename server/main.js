@@ -3,10 +3,24 @@
 	'use strict';
 	var express = require('express'),
 			session = require('express-session'),
+			templateEngine  = require('express-handlebars').create({
+					defaultLayout: 'main',
+					extname: '.hbs',
+					layoutsDir: __dirname + '/views/layouts',
+					partialsDir: __dirname + '/views/partials',
+					helpers: {
+						timestamp: function () {
+							return new Date();
+						}
+					}
+				}).engine,
 			bodyParser = require('body-parser'),
 			app = express(),
 			server;
 
+	app.engine('.hbs', templateEngine);
+	app.set('view engine', '.hbs');
+	app.set('views', __dirname + '/views');
 	app.use(session({secret: 'cookiesecret', resave: false, saveUninitialized: true}));
 	app.use(express.static(__dirname + '/public'));
 	app.use(bodyParser.urlencoded({ extended: false }));
@@ -16,16 +30,22 @@
 	});
 
 	app.post('/util/account', function (req, res) {
-		req.session.accounts = req.session.accounts || {};
-		req.session.accounts[req.body.name] = req.body.amount;
-		console.log('post', req.session.accounts);
-		res.send('Set up account ' + req.body.name);
+		var name = req.body.name,
+				balance = req.body.amount,
+				accounts = (req.session.accounts = req.session.accounts || {});
+		accounts[name] = balance;
+		console.log('post', accounts);
+		res.render('account', { name: name, balance: balance });
+	});
+	app.get('/util/account', function (req, res) {
+		res.render('account-setup');
 	});
 	app.get('/util/account/:name', function (req, res) {
-		console.log('get', req.session.accounts);
-		res.send('GET request for account ' + req.params.name + ' ' + req.session.accounts[req.params.name]) ;
+		var name = req.params.name,
+				accounts = (req.session.accounts = req.session.accounts || {}),
+				balance = accounts[name];
+		res.render('account', { name: name, balance: balance });
 	});
-
 	server = app.listen(3000, function () {
 		var host = server.address().address,
 				port = server.address().port;
