@@ -1,4 +1,4 @@
-/*global beforeEach, describe, it, console */
+/*global beforeEach, describe, it, console, afterEach */
 
 describe('Server smoke test', function () {
 	'use strict';
@@ -8,6 +8,9 @@ describe('Server smoke test', function () {
 		browser.visit('/log-in').then(function () {
 			browser.fill('name', 'admin').fill('password', 'admin').pressButton('#log-in').then(done); //.catch(done);
 		});
+	});
+	afterEach(function () {
+		browser.destroy();
 	});
 	it('loggs the admin in', function () {
 		browser.assert.success();

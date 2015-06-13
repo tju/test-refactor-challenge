@@ -1,4 +1,4 @@
-/*global beforeEach, describe, it, console */
+/*global beforeEach, describe, it, console, afterEach */
 
 describe('Shopping cart', function () {
 	'use strict';
@@ -10,6 +10,9 @@ describe('Shopping cart', function () {
 		browser.visit('/log-in').then(function () {
 			browser.fill('name', 'admin').fill('password', 'admin').pressButton('#log-in').then(done);
 		});
+	});
+	afterEach(function () {
+		browser.destroy();
 	});
 	it('creates an account', function (done) {
 		browser.visit('/util/account').then(function () {
