@@ -1,6 +1,6 @@
 {{#if name}}
   <h1>Logged in</h1>
-  <p>You are now logged in as {{name}}.
+  <p>You are now logged in as <span id="login-result-name">{{name}}</span>.
   {{#if balance}}
     <span id="balance">Your balance is {{balance}}</span>
   {{/if}}
@@ -13,6 +13,6 @@
   <form method="post" action="/log-in">
     <input name="name" placeholder="name" /><br/>
     <input name="password" placeholder="password" /><br/>
-    <input type="submit" value="Log In"/>
+    <input type="submit" value="Log In" id="log-in"/>
   </form>
 {{/if}}

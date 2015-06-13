@@ -3,28 +3,37 @@
 describe('Server smoke test', function () {
 	'use strict';
 	var browser;
-
 	beforeEach(function (done) {
 		browser = new this.Browser();
-		browser.visit('/util/account', done);
+		browser.visit('/log-in').then(function () {
+			browser.fill('name', 'admin').fill('password', 'admin').pressButton('#log-in').then(done); //.catch(done);
+		});
 	});
-	describe('account balance', function () {
+	it('loggs the admin in', function () {
+		browser.assert.success();
+		browser.assert.text('#login-result-name', 'admin');
+	});
+	describe('Account creation', function () {
 		beforeEach(function (done) {
-			browser.fill('name', 'gojko').fill('amount', 1000).pressButton('input[type=submit]').then(done).catch(done);
+			browser.visit('/util/account').then(done);
 		});
-
-		it('should set balance', function () {
-			browser.assert.success();
-			browser.assert.url('/util/account');
-			browser.assert.text('#balance', '1000');
-			browser.assert.text('#name', 'gojko');
-		});
-		it('should be able to query balance after setting', function (done) {
-			browser.visit('/util/account/gojko').then(function () {
+		describe('account balance', function () {
+			beforeEach(function (done) {
+				browser.fill('name', 'gojko').fill('amount', 1000).pressButton('#set-up-account').then(done); //.catch(done);
+			});
+			it('should set balance', function () {
 				browser.assert.success();
+				browser.assert.url('/util/account');
 				browser.assert.text('#balance', '1000');
 				browser.assert.text('#name', 'gojko');
-			}).catch(this.asyncFail).then(done);
+			});
+			it('should be able to query balance after setting', function (done) {
+				browser.visit('/util/account/gojko').then(function () {
+					browser.assert.success();
+					browser.assert.text('#balance', '1000');
+					browser.assert.text('#name', 'gojko');
+				}).catch(this.asyncFail).then(done);
+			});
 		});
 	});
 });
