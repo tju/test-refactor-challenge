@@ -1,4 +1,4 @@
-/*global beforeEach, describe, it */
+/*global beforeEach, describe, it, console */
 
 describe('Server smoke test', function () {
 	'use strict';
@@ -11,6 +11,7 @@ describe('Server smoke test', function () {
 	});
 	it('loggs the admin in', function () {
 		browser.assert.success();
+		console.log('logged in as', browser.text('#login-result-name'));
 		browser.assert.text('#login-result-name', 'admin');
 	});
 	describe('Account creation', function () {
