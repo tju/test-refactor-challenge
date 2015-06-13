@@ -5,8 +5,17 @@
     <title>Test Server</title>
 </head>
 <body>
+{{#if currentAccount}}
+<span id="user-id">logged in as {{currentAccount}}</span>
+<form method="post" action="/log-out"><input type="submit" value="Log out"/></form>
+{{else}}
+<a href="/log-in">Log in</a>
+{{/if}}
+<hr/>
+
     {{{body}}}
-    <hr/>
-{{timestamp}}
+<hr/>
+[{{timestamp}}]
+<a href="/">Item list</a> | <a href="/util/account">Create account</a> | <a href="/util/item">Create item</a>
 </body>
 </html>
