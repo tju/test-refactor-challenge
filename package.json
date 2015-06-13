@@ -7,6 +7,7 @@
     "grunt": "^0.4.5",
     "grunt-contrib-jasmine": "^0.8.2",
     "jasmine": "^2.3.1",
+    "node-uuid": "^1.4.3",
     "zombie": "^3.1.1"
   }
 }

@@ -23,7 +23,7 @@ describe('Server smoke test', function () {
 			browser.visit('/util/account/gojko').then(function () {
 				browser.assert.success();
 				browser.assert.text('#balance', '1000');
-				browser.assert.text('#name', 'gojko1');
+				browser.assert.text('#name', 'gojko');
 			}).catch(this.asyncFail).then(done);
 		});
 	});

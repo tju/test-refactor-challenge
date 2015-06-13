@@ -1,0 +1,10 @@
+{{#if items}}
+  <h1>Items</h1>
+  <ul>
+  {{#each items}}
+    <li><a href="/item/{{id}}">{{name}}</a></li>
+  {{/each}}
+  </ul>
+{{else}}
+  <h1>No items set up</h1>
+{{/if}}
