@@ -13,13 +13,13 @@ to get all the dependencies.
 
 Verify that the server is running OK by starting
 
-    sh server.sh
+    npm start
 
 and open http://localhost:3000/smoke in a browser. It should display a message with the current timestamp.
 
 Keep the server running, and verify that the tests can run OK by running
 
-    sh run-tests.sh --filter=smoke
+    npm test -- --filter=smoke
 
 This should print a few green dots and a message 'logged in as admin'
 
